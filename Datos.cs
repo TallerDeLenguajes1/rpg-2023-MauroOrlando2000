@@ -7,11 +7,11 @@ public class Datos
     private string? Nombre;
     private string? Apodo;
     private DateTime Nacimiento;
-    private DateTime Edad;
+    private int Edad;
 
     public Tipo affinity { get => afinidad; set => afinidad = value; }
     public string Name { get => Nombre; set => Nombre = value; }
     public string Alias { get => Apodo; set => Apodo = value; }
     public DateTime Birth { get => Nacimiento; set => Nacimiento = value; }
-    public DateTime Age { get => Edad; set => Edad = value; }
+    public int Age { get => Edad; set => Edad = value; }
 }

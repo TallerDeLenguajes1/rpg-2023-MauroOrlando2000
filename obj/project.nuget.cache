@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "9rmju08BWV0CwduRppi47ly2wTGbVGRLZFQfdPlrFOkfV+xiPIoTpuMOcXgn/4aM7B5l1PllCp7VLza9awh/PA==",
+  "dgSpecHash": "Gy0tSvJ9m+T3EeujFvTNpb8RFrhWS7TJtjADWtqJuktShIloKqc29wiTWQTDqVc96nThERwcCYuz2Wf2/B1cng==",
   "success": true,
-  "projectFilePath": "C:\\Proyecto RPG\\Proyecto RPG.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "D:\\git 4.0\\rpg-2023-MauroOrlando2000\\Proyecto RPG.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Orlando Rios\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.16\\microsoft.netcore.app.ref.6.0.16.nupkg.sha512",
+    "C:\\Users\\Orlando Rios\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.16\\microsoft.windowsdesktop.app.ref.6.0.16.nupkg.sha512",
+    "C:\\Users\\Orlando Rios\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.16\\microsoft.aspnetcore.app.ref.6.0.16.nupkg.sha512",
+    "C:\\Users\\Orlando Rios\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.16\\microsoft.netcore.app.host.win-x64.6.0.16.nupkg.sha512"
+  ],
   "logs": []
 }

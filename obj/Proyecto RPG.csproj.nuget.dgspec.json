@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Proyecto RPG\\Proyecto RPG.csproj": {}
+    "D:\\git 4.0\\rpg-2023-MauroOrlando2000\\Proyecto RPG.csproj": {}
   },
   "projects": {
-    "C:\\Proyecto RPG\\Proyecto RPG.csproj": {
+    "D:\\git 4.0\\rpg-2023-MauroOrlando2000\\Proyecto RPG.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Proyecto RPG\\Proyecto RPG.csproj",
+        "projectUniqueName": "D:\\git 4.0\\rpg-2023-MauroOrlando2000\\Proyecto RPG.csproj",
         "projectName": "Proyecto RPG",
-        "projectPath": "C:\\Proyecto RPG\\Proyecto RPG.csproj",
-        "packagesPath": "C:\\Users\\Alumno\\.nuget\\packages\\",
-        "outputPath": "C:\\Proyecto RPG\\obj\\",
+        "projectPath": "D:\\git 4.0\\rpg-2023-MauroOrlando2000\\Proyecto RPG.csproj",
+        "packagesPath": "C:\\Users\\Orlando Rios\\.nuget\\packages\\",
+        "outputPath": "D:\\git 4.0\\rpg-2023-MauroOrlando2000\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Alumno\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Orlando Rios\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -43,16 +43,35 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[6.0.16, 6.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[6.0.16, 6.0.16]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[6.0.16, 6.0.16]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[6.0.16, 6.0.16]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }
