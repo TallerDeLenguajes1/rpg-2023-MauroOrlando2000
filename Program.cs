@@ -1,36 +1,37 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Personajes;
 
 List<FabricaDePersonajes> PersonajesEnPie = new List<FabricaDePersonajes>();
-var PersonajesPeleando = new List<FabricaDePersonajes>();
-var PersonajesDerrotados = new List<FabricaDePersonajes>();
-bool anda;
-int num = 0;
-string? stringNum = "";
+PersonajesJson json = new PersonajesJson();
+int i=0;
+string archivo = "Personajes.json";
 
-for(int i=0; i<2; i++)
+Console.WriteLine("MENU PRINCIPAL");
+if(json.Existe(archivo))
 {
-    anda = false;
-    FabricaDePersonajes character = new FabricaDePersonajes();
-    while(!anda || num < 0 || num > 1)
+    Console.WriteLine("Archivo de personajes encontrado");
+    PersonajesEnPie = json.LeerPersonajes(archivo);
+    foreach(FabricaDePersonajes personaje in PersonajesEnPie)
     {
-        character.CrearPersonaje();
-        character.mostrarPersonaje();
-        Console.WriteLine("Quiere generar otro personaje? (0=No, 1=Si)");
-        stringNum = Console.ReadLine();
-        anda = int.TryParse(stringNum, out num);
-        if(!anda || num < 0 || num > 1)
-        {
-            Console.WriteLine("Valor invalido");
-        }
-        anda = num == 0? true : false; 
+        Console.WriteLine("\nPERSONAJE " + ++i);
+        personaje.mostrarPersonaje();
+        Console.WriteLine("\n");
     }
 }
-
-foreach(FabricaDePersonajes personaje in PersonajesEnPie)
+else
 {
-    Console.WriteLine("\n\n");
-    personaje.mostrarPersonaje();
+    for(i=1; i<=10; i++)
+    {
+        FabricaDePersonajes character = new FabricaDePersonajes();
+        character.CrearPersonaje();
+        Console.WriteLine("\nPERSONAJE " + i);
+        character.mostrarPersonaje();
+        PersonajesEnPie.Add(character);
+        Console.WriteLine("\n");
+    }
+    json.GuardarPersonajes(PersonajesEnPie, archivo);
 }

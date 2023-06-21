@@ -9,7 +9,7 @@ namespace Personajes
         public void CrearPersonaje()
         {
             Random rnd = new Random();
-            string[] Nombres = {"Tristan","Siegfried","Sigurd","Lancelot","Galahad","Arthur"};
+            string[] Nombres = {"Tristan","Siegfried","Sigurd","Lancelot","Galahad","Arthur","Merlin"};
             string[] Apodos = {"El barbudo","El bárbaro","El noble","El imparable"};
             int azar = rnd.Next(7);
             switch(azar)
