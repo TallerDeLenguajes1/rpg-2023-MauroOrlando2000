@@ -33,50 +33,44 @@ namespace Personajes
             int range = (new DateTime(2001, 1, 1) - MaximaEdad).Days;
             CharaInfo.Birth = Aux = MaximaEdad.AddDays(rnd.Next(range));
             CharaInfo.Age = calcularEdad(CharaInfo.Birth);
+            CharaStats.level = rnd.Next(1,10);
 
             switch(CharaInfo.affinity)
             {
                 case Datos.Tipo.Saber: CharaStats.speed = rnd.Next(8,11);
-                        CharaStats.agility = rnd.Next(5,8);
+                        CharaStats.agility = rnd.Next(6,11);
                         CharaStats.attack = rnd.Next(8,11);
                         CharaStats.armor = rnd.Next(9,12);
-                        CharaStats.level = rnd.Next(10,20);
                 break;
                 case Datos.Tipo.Lancer: CharaStats.speed = rnd.Next(10,13);
-                        CharaStats.agility = rnd.Next(6,9);
+                        CharaStats.agility = rnd.Next(8,13);
                         CharaStats.attack = rnd.Next(7,10);
                         CharaStats.armor = rnd.Next(8,12);
-                        CharaStats.level = rnd.Next(10,20);
                 break;
                 case Datos.Tipo.Archer: CharaStats.speed = rnd.Next(9,12);
-                        CharaStats.agility = rnd.Next(5,9);
+                        CharaStats.agility = rnd.Next(2,10);
                         CharaStats.attack = rnd.Next(7,11);
                         CharaStats.armor = rnd.Next(8,12);
-                        CharaStats.level = rnd.Next(10,20);
                 break;
                 case Datos.Tipo.Rider: CharaStats.speed = rnd.Next(8,11);
-                        CharaStats.agility = rnd.Next(5,8);
+                        CharaStats.agility = rnd.Next(7,11);
                         CharaStats.attack = rnd.Next(8,11);
                         CharaStats.armor = rnd.Next(9,12);
-                        CharaStats.level = rnd.Next(10,20);
                 break;
                 case Datos.Tipo.Caster: CharaStats.speed = rnd.Next(6,9);
-                        CharaStats.agility = rnd.Next(8,11);
+                        CharaStats.agility = rnd.Next(5,10);
                         CharaStats.attack = rnd.Next(7,10);
                         CharaStats.armor = rnd.Next(8,12);
-                        CharaStats.level = rnd.Next(10,20);
                 break;
                 case Datos.Tipo.Assassin: CharaStats.speed = rnd.Next(11,15);
-                        CharaStats.agility = rnd.Next(10,13);
+                        CharaStats.agility = rnd.Next(11,15);
                         CharaStats.attack = rnd.Next(7,10);
                         CharaStats.armor = rnd.Next(5,8);
-                        CharaStats.level = rnd.Next(10,20);
                 break;
                 case Datos.Tipo.Berserker: CharaStats.speed = rnd.Next(5,9);
-                        CharaStats.agility = rnd.Next(6,9);
-                        CharaStats.attack = rnd.Next(11,14);
-                        CharaStats.armor = rnd.Next(11,14);
-                        CharaStats.level = rnd.Next(10,20);
+                        CharaStats.agility = rnd.Next(1,6);
+                        CharaStats.attack = rnd.Next(11,15);
+                        CharaStats.armor = rnd.Next(11,15);
                 break;
             }
             if(CharaInfo.affinity == Datos.Tipo.Berserker)
