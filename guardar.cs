@@ -9,13 +9,12 @@ namespace Personajes
         public void GuardarPersonajes(List<FabricaDePersonajes> lista, string archivo)
         {
             var options = new JsonSerializerOptions { WriteIndented = true };
-            string json = JsonSerializer.Serialize(lista, options) + "\n\n";;
+            string json = JsonSerializer.Serialize(lista, options) + "\n\n";
             File.WriteAllText(archivo, json);
         }
 
         public List<FabricaDePersonajes> LeerPersonajes(string archivo)
         {
-            var options = new JsonSerializerOptions { WriteIndented = true };
             var lista = new List<FabricaDePersonajes>();
             StreamReader SR = new StreamReader(archivo);
             string json = SR.ReadToEnd();

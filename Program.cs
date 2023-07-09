@@ -10,27 +10,61 @@ var PersonajesPeleando = new List<FabricaDePersonajes>();
 var ganadores = new List<FabricaDePersonajes>();
 PersonajesJson json = new PersonajesJson();
 Random rnd = new Random();
-int i=0, aux;
-string archivo = "Personajes.json";
+int i=0, aux, intNum=1;
+string archivo = "Personajes.json", stringNum="";
+bool anda=false;
 
 Console.WriteLine("MENU PRINCIPAL");
 if(json.Existe(archivo))
 {
     Console.WriteLine("Archivo de personajes encontrado");
-    PersonajesEnPie = json.LeerPersonajes(archivo);
-    foreach(FabricaDePersonajes personaje in PersonajesEnPie)
+    while(!anda || intNum > 2 || intNum < 1)
     {
-        Console.WriteLine("\nPERSONAJE " + ++i);
-        personaje.mostrarPersonaje();
-        Console.WriteLine("\n");
+        Console.WriteLine("Que desea hacer?\n1. Crear personajees nuevos\n2. Leer personajes guardados");
+        stringNum = Console.ReadLine();
+        anda = int.TryParse(stringNum, out intNum);
+        if(!anda || intNum > 2 || intNum < 1)
+        {
+            Console.WriteLine("Valor inválido");
+        }
+    }
+    if(intNum == 2)
+    {
+        PersonajesEnPie = json.LeerPersonajes(archivo);
+        foreach(FabricaDePersonajes personaje in PersonajesEnPie)
+        {
+            Console.WriteLine("\nPERSONAJE " + ++i);
+            personaje.mostrarPersonaje();
+            Console.WriteLine("\n");
+        }
+    }
+    else
+    {
+        Console.WriteLine("Se crearan personajes nuevos\n");
+        string url = "https://randomapi.com/api/e9a3b0d847609bbda960c8a85c1fd3c7";
+        for(i=1; i<=10; i++)
+        {
+            cargaHttp cliente = new cargaHttp();
+            FabricaDePersonajes character = await cliente.cargarApi(url);
+            character.CrearPersonaje(character);
+            Console.WriteLine("\nPERSONAJE " + i);
+            character.mostrarPersonaje();
+            PersonajesEnPie.Add(character);
+            Console.WriteLine("\n");
+        }
+        json.GuardarPersonajes(PersonajesEnPie, archivo);
     }
 }
 else
 {
+    Console.WriteLine("Archivo de personajes no encontrado");
+    Console.WriteLine("Se crearan personajes nuevos\n");
+    string url = "https://randomapi.com/api/e9a3b0d847609bbda960c8a85c1fd3c7";
     for(i=1; i<=10; i++)
     {
-        FabricaDePersonajes character = new FabricaDePersonajes();
-        character.CrearPersonaje();
+        cargaHttp cliente = new cargaHttp();
+        FabricaDePersonajes character = await cliente.cargarApi(url);
+        character.CrearPersonaje(character);
         Console.WriteLine("\nPERSONAJE " + i);
         character.mostrarPersonaje();
         PersonajesEnPie.Add(character);
@@ -64,27 +98,7 @@ for(int k=1; k<=4; k++)
     Console.WriteLine($"{PersonajesPeleando[0].CharaInfo.Name} , {PersonajesPeleando[0].CharaInfo.Alias} VS {PersonajesPeleando[1].CharaInfo.Name} , {PersonajesPeleando[1].CharaInfo.Alias}");
     FabricaDePersonajes ganador = Pelea.Accion(PersonajesPeleando[0], PersonajesPeleando[1]);
     Console.WriteLine($"GANADOR: {ganador.CharaInfo.Name}, {ganador.CharaInfo.Alias}");
-    int intAux = rnd.Next(4);
-    switch(intAux)
-    {
-        case 0:
-            Console.WriteLine("RECOMPENSA: +25 de Salud");
-            ganador.CharaStats.HP += 25;
-        break;
-        case 1:
-            Console.WriteLine("RECOMPENSA: +10 defensa");
-            ganador.CharaStats.armor += 10;
-        break;
-        case 2:
-            Console.WriteLine("RECOMPENSA: +10 ataque");
-            ganador.CharaStats.attack += 10;
-        break;
-        case 3:
-            Console.WriteLine("RECOMPENSA: +5 velocidad y +10 agilidad");
-            ganador.CharaStats.agility += 10;
-            ganador.CharaStats.speed += 5;
-        break;
-    }
+    Pelea.recompensa(ganador);
     ganadores.Add(ganador);
     PersonajesPeleando.Clear();
     Console.ReadKey();
@@ -113,27 +127,7 @@ for(int k=1; k<=2; k++)
     Console.WriteLine($"{PersonajesPeleando[0].CharaInfo.Name} , {PersonajesPeleando[0].CharaInfo.Alias} VS {PersonajesPeleando[1].CharaInfo.Name} , {PersonajesPeleando[1].CharaInfo.Alias}");
     FabricaDePersonajes ganador = Pelea.Accion(PersonajesPeleando[0], PersonajesPeleando[1]);
     Console.WriteLine($"GANADOR: {ganador.CharaInfo.Name}, {ganador.CharaInfo.Alias}");
-    int intAux = rnd.Next(4);
-    switch(intAux)
-    {
-        case 0:
-            Console.WriteLine("RECOMPENSA: +25 de Salud");
-            ganador.CharaStats.HP += 25;
-        break;
-        case 1:
-            Console.WriteLine("RECOMPENSA: +10 defensa");
-            ganador.CharaStats.armor += 10;
-        break;
-        case 2:
-            Console.WriteLine("RECOMPENSA: +10 ataque");
-            ganador.CharaStats.attack += 10;
-        break;
-        case 3:
-            Console.WriteLine("RECOMPENSA: +5 velocidad y +10 agilidad");
-            ganador.CharaStats.agility += 10;
-            ganador.CharaStats.speed += 5;
-        break;
-    }
+    Pelea.recompensa(ganador);
     ganadores.Add(ganador);
     PersonajesPeleando.Clear();
     Console.ReadKey();

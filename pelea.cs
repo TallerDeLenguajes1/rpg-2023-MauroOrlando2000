@@ -181,5 +181,31 @@ namespace Personajes
             }
             return efectividad;
         }
+
+        public void recompensa(FabricaDePersonajes personaje)
+        {
+            Random rnd = new Random();
+            int intAux = rnd.Next(4);
+            switch(intAux)
+            {
+                case 0:
+                    Console.WriteLine("RECOMPENSA: +25 de Salud");
+                    personaje.CharaStats.HP += 25;
+                break;
+                case 1:
+                    Console.WriteLine("RECOMPENSA: +10 defensa");
+                    personaje.CharaStats.armor += 10;
+                break;
+                case 2:
+                    Console.WriteLine("RECOMPENSA: +10 ataque");
+                    personaje.CharaStats.attack += 10;
+                break;
+                case 3:
+                    Console.WriteLine("RECOMPENSA: +5 velocidad y +10 agilidad");
+                    personaje.CharaStats.agility += 10;
+                    personaje.CharaStats.speed += 5;
+                break;
+            }
+        }
     }
 }
