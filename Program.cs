@@ -127,16 +127,47 @@ else
         json.GuardarPersonajes(PersonajesEnPie, archivo);
     }
 }
+
 i--;
-Console.WriteLine("Advertencia: Dos luchadores serán descalificados para mantener una llave de 8");
-for(int j=0; j<2; j++)
+Console.WriteLine("Advertencia: Seis luchadores de manera aleatoria pasaran a cuartos para mantener una llave de 8");
+for(int j=0; j<6; j++)
 {
     int num = rnd.Next(i);
     i--;
     FabricaDePersonajes seleccionado = PersonajesEnPie[num];
+    ganadores.Add(seleccionado);
     PersonajesEnPie.Remove(seleccionado);
-    Console.WriteLine($"{seleccionado.CharaInfo.Name}, {seleccionado.CharaInfo.Alias} eliminado");
+    Console.WriteLine($"{seleccionado.CharaInfo.Name}, {seleccionado.CharaInfo.Alias} pasa a cuartos");
 }
+
+for(int k=1; k<=2; k++)
+{
+    Console.WriteLine("\n\nOCTAVOS DE FINAL " + k);
+    for(int j=0; j<2; j++)
+    {
+        int num = rnd.Next(i);
+        FabricaDePersonajes seleccionado = PersonajesEnPie[num];
+        PersonajesPeleando.Add(seleccionado);
+        PersonajesEnPie.Remove(seleccionado);
+        i--;
+    }
+    Pelea Pelea = new Pelea();
+    Console.WriteLine($"{PersonajesPeleando[0].CharaInfo.Name} , {PersonajesPeleando[0].CharaInfo.Alias} VS {PersonajesPeleando[1].CharaInfo.Name} , {PersonajesPeleando[1].CharaInfo.Alias}");
+    FabricaDePersonajes ganador = Pelea.Accion(PersonajesPeleando[0], PersonajesPeleando[1]);
+    Console.WriteLine($"GANADOR: {ganador.CharaInfo.Name}, {ganador.CharaInfo.Alias}");
+    Pelea.recompensa(ganador);
+    ganadores.Add(ganador);
+    PersonajesPeleando.Clear();
+    Console.ReadKey();
+}
+aux = i = ganadores.Count - 1;
+while(aux >= 0)
+{
+    FabricaDePersonajes seleccionado = ganadores[aux];
+    PersonajesEnPie.Add(seleccionado);
+    aux--;
+}
+ganadores.Clear();
 
 for(int k=1; k<=4; k++)
 {
