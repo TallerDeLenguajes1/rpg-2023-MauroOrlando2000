@@ -40,13 +40,85 @@ if(json.Existe(archivo))
     }
     else
     {
-        Console.WriteLine("Se crearan personajes nuevos\n");
+        anda = false;
+        while(!anda || intNum > 2 || intNum < 1)
+        {
+            Console.WriteLine("Desea crear personajes con el offline o online?\n1.Online\n2.Offline");
+            stringNum = Console.ReadLine();
+            anda = int.TryParse(stringNum, out intNum);
+            if(!anda || intNum > 2 || intNum < 1)
+            {
+                Console.WriteLine("Valor inválido");
+            }
+        }
+        if(intNum == 1)
+        {
+            Console.WriteLine("Se crearan personajes nuevos de manera online\n");
+            string url = "https://randomapi.com/api/e9a3b0d847609bbda960c8a85c1fd3c7";
+            for(i=1; i<=10; i++)
+            {
+                cargaHttp cliente = new cargaHttp();
+                FabricaDePersonajes character = await cliente.cargarApi(url);
+                character.CrearPersonajeOnline(character);
+                Console.WriteLine("\nPERSONAJE " + i);
+                character.mostrarPersonaje();
+                PersonajesEnPie.Add(character);
+                Console.WriteLine("\n");
+            }
+            json.GuardarPersonajes(PersonajesEnPie, archivo);
+        }
+        else
+        {
+            Console.WriteLine("Se crearan personajes usando el algoritmo integrado\n");
+            for(i=1; i<=10; i++)
+            {
+                FabricaDePersonajes character = new FabricaDePersonajes();
+                character.CrearPersonajeOffline();
+                Console.WriteLine("\nPERSONAJE " + i);
+                character.mostrarPersonaje();
+                PersonajesEnPie.Add(character);
+                Console.WriteLine("\n");
+            }
+            json.GuardarPersonajes(PersonajesEnPie, archivo);
+        }
+    }
+}
+else
+{
+    anda = false;
+    while(!anda || intNum > 2 || intNum < 1)
+    {
+        Console.WriteLine("Desea crear personajes con el offline o online?\n1.Online\n2.Offline");
+        stringNum = Console.ReadLine();
+        anda = int.TryParse(stringNum, out intNum);
+        if(!anda || intNum > 2 || intNum < 1)
+        {
+            Console.WriteLine("Valor inválido");
+        }
+    }
+    if(intNum == 1)
+    {
+        Console.WriteLine("Se crearan personajes nuevos de manera online\n");
         string url = "https://randomapi.com/api/e9a3b0d847609bbda960c8a85c1fd3c7";
         for(i=1; i<=10; i++)
         {
             cargaHttp cliente = new cargaHttp();
             FabricaDePersonajes character = await cliente.cargarApi(url);
-            character.CrearPersonaje(character);
+            character.CrearPersonajeOnline(character);
+            Console.WriteLine("\nPERSONAJE " + i);
+            character.mostrarPersonaje();
+            PersonajesEnPie.Add(character);
+            Console.WriteLine("\n");
+        }
+        json.GuardarPersonajes(PersonajesEnPie, archivo);
+    }
+    else
+    {
+        Console.WriteLine("Se crearan personajes usando el algoritmo integrado\n");
+        for(i=1; i<=10; i++)
+        {
+            FabricaDePersonajes character = new FabricaDePersonajes();
+            character.CrearPersonajeOffline();
             Console.WriteLine("\nPERSONAJE " + i);
             character.mostrarPersonaje();
             PersonajesEnPie.Add(character);
@@ -55,24 +127,7 @@ if(json.Existe(archivo))
         json.GuardarPersonajes(PersonajesEnPie, archivo);
     }
 }
-else
-{
-    Console.WriteLine("Archivo de personajes no encontrado");
-    Console.WriteLine("Se crearan personajes nuevos\n");
-    string url = "https://randomapi.com/api/e9a3b0d847609bbda960c8a85c1fd3c7";
-    for(i=1; i<=10; i++)
-    {
-        cargaHttp cliente = new cargaHttp();
-        FabricaDePersonajes character = await cliente.cargarApi(url);
-        character.CrearPersonaje(character);
-        Console.WriteLine("\nPERSONAJE " + i);
-        character.mostrarPersonaje();
-        PersonajesEnPie.Add(character);
-        Console.WriteLine("\n");
-    }
-    json.GuardarPersonajes(PersonajesEnPie, archivo);
-}
-
+i--;
 Console.WriteLine("Advertencia: Dos luchadores serán descalificados para mantener una llave de 8");
 for(int j=0; j<2; j++)
 {
