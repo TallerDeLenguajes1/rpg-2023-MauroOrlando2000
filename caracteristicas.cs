@@ -15,4 +15,6 @@ public class caracteristicas
     public double armor { get => armadura; set => armadura = value; }
     public double level { get => nivel; set => nivel = value; }
     public double HP { get => salud; set => salud = value; }
+    public int Aux { get; set; }
+    public bool skill { get; set; }
 }

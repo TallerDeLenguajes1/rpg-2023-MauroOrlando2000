@@ -2,132 +2,136 @@ namespace Personajes
 {
     public class Pelea
     {
-        private double Balanceo = 25;
+        private double Balanceo = 40;
         public double Balance { get => Balanceo; }
         public FabricaDePersonajes Accion(FabricaDePersonajes uno, FabricaDePersonajes dos)
         {
-            Random rnd = new Random();
-            int i=0;
-            double RNG, ataque, damage, evadir, efectividad;
+            int i=0, intNum=0;
+            bool anda = false;
+            string stringNum;
+            if(uno.CharaInfo.affinity == Datos.Tipo.Caster)
+            {
+                uno.CharaStats.Aux = 0;
+            }
+            if(dos.CharaInfo.affinity == Datos.Tipo.Caster)
+            {
+                dos.CharaStats.Aux = 0;
+            }
+            uno.CharaStats.skill = dos.CharaStats.skill = false;
+            if(uno.CharaInfo.affinity == Datos.Tipo.Assassin)
+            {
+                uno.CharaStats.Aux = uno.CharaStats.agility;
+            }
+            if(dos.CharaInfo.affinity == Datos.Tipo.Assassin)
+            {
+                dos.CharaStats.Aux = dos.CharaStats.agility;
+            }
+            while(!anda || intNum > 1 || intNum < 0)
+            {
+                Console.WriteLine("Desea participar de la pelea?\n0. No\n1. Si");
+                stringNum = Console.ReadLine();
+                anda = int.TryParse(stringNum, out intNum);
+                if(!anda || intNum > 1 || intNum < 0)
+                {
+                    Console.WriteLine("Valor inválido");
+                }
+            }
+            if(intNum == 1)
+            {
+                anda = false;
+                while(!anda || intNum > 2 || intNum < 0)
+                {
+                    Console.WriteLine($"Que luchador desea elegir?\n");
+                    Console.WriteLine($"1. {uno.CharaInfo.Name}, {uno.CharaInfo.Alias}");
+                    Console.WriteLine($"2. {dos.CharaInfo.Name}, {dos.CharaInfo.Alias}");
+                    Console.WriteLine("0. Cancelar");
+                    stringNum = Console.ReadLine();
+                    anda = int.TryParse(stringNum, out intNum);
+                    if(!anda || intNum > 2 || intNum < 0)
+                    {
+                        Console.WriteLine("Valor inválido");
+                    }
+                }
+            }
             while(uno.CharaStats.HP > 0 && dos.CharaStats.HP > 0)
             {
                 Console.WriteLine("\nTurno "+ ++i);
                 if(uno.CharaStats.speed > dos.CharaStats.speed)
                 {
-                    evadir = rnd.Next(1,101);
-                    RNG = rnd.Next(70, 101);
-                    ataque = uno.CharaStats.attack * uno.CharaStats.level * RNG;
-                    efectividad = afinidad(uno.CharaInfo.affinity, dos.CharaInfo.affinity);
-                    damage = ataque * efectividad / dos.CharaStats.armor;
-                    damage /= Balance;
-                    damage = Math.Round(damage);
-                    Console.WriteLine($"{uno.CharaInfo.Name}, {uno.CharaInfo.Alias} ataca");
-                    if(evadir < dos.CharaStats.agility)
+                    if(intNum == 1)
                     {
-                        Console.WriteLine("El ataque ha fallado");
+                        Ataque(uno, dos, intNum);
                     }
                     else
                     {
-                        dos.CharaStats.HP -= damage;
-                        Console.WriteLine($"{dos.CharaInfo.Name}, {dos.CharaInfo.Alias} recibe {damage} de daño");
-                        if(dos.CharaStats.HP < 0)
-                        {
-                            dos.CharaStats.HP = 0;
-                        }
-                        Console.WriteLine("Vida restante: " + dos.CharaStats.HP);
+                        Ataque(uno, dos, 0);
                     }
                     Console.ReadKey();
-                    if(dos.CharaStats.HP <= 0)
+                    if(dos.CharaStats.HP == 0)
                     {
                         Console.WriteLine($"{dos.CharaInfo.Name}, {dos.CharaInfo.Alias} ha caido");
+                        if(uno.CharaInfo.affinity == Datos.Tipo.Assassin)
+                        {
+                            uno.CharaStats.agility = uno.CharaStats.Aux;
+                        }
                     }
                     else
                     {
-                        evadir = rnd.Next(1,101);
-                        RNG = rnd.Next(70, 101);
-                        ataque = dos.CharaStats.attack * dos.CharaStats.level * RNG;
-                        efectividad = afinidad(dos.CharaInfo.affinity, uno.CharaInfo.affinity);
-                        damage = ataque * efectividad / uno.CharaStats.armor;
-                        damage /= Balance;
-                        damage = Math.Round(damage);
-                        Console.WriteLine($"\n{dos.CharaInfo.Name}, {dos.CharaInfo.Alias} ataca");
-                        if(evadir < uno.CharaStats.agility)
+                        if(intNum == 2)
                         {
-                            Console.WriteLine("El ataque ha fallado");
+                            Ataque(dos, uno, intNum);
                         }
                         else
                         {
-                            uno.CharaStats.HP -= damage;
-                            Console.WriteLine($"{uno.CharaInfo.Name}, {uno.CharaInfo.Alias} recibe {damage} de daño");
-                            if(uno.CharaStats.HP < 0)
-                            {
-                                uno.CharaStats.HP = 0;
-                            }
-                            Console.WriteLine("Vida restante: " + uno.CharaStats.HP);
+                            Ataque(dos, uno, 0);
                         }
-                        if(uno.CharaStats.HP <= 0)
+                        if(uno.CharaStats.HP == 0)
                         {
                             Console.WriteLine($"{uno.CharaInfo.Name}, {uno.CharaInfo.Alias} ha caido");
+                            if(dos.CharaInfo.affinity == Datos.Tipo.Assassin)
+                            {
+                                dos.CharaStats.agility = dos.CharaStats.Aux;
+                            }
                         }
                     }
                     Console.ReadKey();
                 }
                 else
                 {
-                    evadir = rnd.Next(1,101);
-                    RNG = rnd.Next(70, 101);
-                    ataque = dos.CharaStats.attack * dos.CharaStats.level * RNG;
-                    efectividad = afinidad(dos.CharaInfo.affinity, uno.CharaInfo.affinity);
-                    damage = ataque * efectividad / uno.CharaStats.armor;
-                    damage /= Balance;
-                    damage = Math.Round(damage);
-                    Console.WriteLine($"{dos.CharaInfo.Name}, {dos.CharaInfo.Alias} ataca");
-                    if(evadir < uno.CharaStats.agility)
+                    if(intNum == 2)
                     {
-                        Console.WriteLine("El ataque ha fallado");
+                        Ataque(dos, uno, intNum);
                     }
                     else
                     {
-                        uno.CharaStats.HP -= damage;
-                        Console.WriteLine($"{uno.CharaInfo.Name}, {uno.CharaInfo.Alias} recibe {damage} de daño");
-                        if(uno.CharaStats.HP < 0)
-                        {
-                            uno.CharaStats.HP = 0;
-                        }
-                        Console.WriteLine("Vida restante: " + uno.CharaStats.HP);
+                        Ataque(dos, uno, 0);
                     }
                     Console.ReadKey();
-                    if(uno.CharaStats.HP <= 0)
+                    if(uno.CharaStats.HP == 0)
                     {
                         Console.WriteLine($"{uno.CharaInfo.Name}, {uno.CharaInfo.Alias} ha caido");
+                        if(dos.CharaInfo.affinity == Datos.Tipo.Assassin)
+                        {
+                            dos.CharaStats.agility = dos.CharaStats.Aux;
+                        }
                     }
                     else
                     {
-                        evadir = rnd.Next(1,101);
-                        RNG = rnd.Next(70, 101);
-                        ataque = uno.CharaStats.attack * uno.CharaStats.level * RNG;
-                        efectividad = afinidad(uno.CharaInfo.affinity, dos.CharaInfo.affinity);
-                        damage = ataque * efectividad / dos.CharaStats.armor;
-                        damage /= Balance;
-                        damage = Math.Round(damage);
-                        Console.WriteLine($"\n{uno.CharaInfo.Name}, {uno.CharaInfo.Alias} ataca");
-                        if(evadir < dos.CharaStats.agility)
+                        if(intNum == 1)
                         {
-                            Console.WriteLine("El ataque ha fallado");
+                            Ataque(uno, dos, intNum);
                         }
                         else
                         {
-                            dos.CharaStats.HP -= damage;
-                            Console.WriteLine($"{dos.CharaInfo.Name}, {dos.CharaInfo.Alias} recibe {damage} de daño");
-                            if(dos.CharaStats.HP < 0)
-                            {
-                                dos.CharaStats.HP = 0;
-                            }
-                            Console.WriteLine("Vida restante: " + dos.CharaStats.HP);
+                            Ataque(uno, dos, 0);
                         }
-                        if(dos.CharaStats.HP <= 0)
+                        if(dos.CharaStats.HP == 0)
                         {
                             Console.WriteLine($"{dos.CharaInfo.Name}, {dos.CharaInfo.Alias} ha caido");
+                            if(uno.CharaInfo.affinity == Datos.Tipo.Assassin)
+                            {
+                                uno.CharaStats.agility = uno.CharaStats.Aux;
+                            }
                         }
                     }
                     Console.ReadKey();
@@ -142,44 +146,244 @@ namespace Personajes
                 return uno;
             }
         }
-        public double afinidad(Datos.Tipo atacante, Datos.Tipo defensor)
+        public double afinidad(FabricaDePersonajes atacante, FabricaDePersonajes defensor)
         {
             double efectividad = 1;
-            switch(atacante)
+            switch(atacante.CharaInfo.affinity)
             {
                 case Datos.Tipo.Saber: 
-                    if(defensor == Datos.Tipo.Lancer) { efectividad = 2; }
-                    if(defensor == Datos.Tipo.Archer) { efectividad = 0.5; }
+                    if(defensor.CharaInfo.affinity == Datos.Tipo.Lancer) { efectividad = 2; }
+                    if(defensor.CharaInfo.affinity == Datos.Tipo.Archer) { efectividad = 0.5; }
                     break;
                 case Datos.Tipo.Lancer: 
-                    if(defensor == Datos.Tipo.Archer) { efectividad = 2; }
-                    if(defensor == Datos.Tipo.Saber) { efectividad = 0.5; }
+                    if(defensor.CharaInfo.affinity == Datos.Tipo.Archer) { efectividad = 2; }
+                    if(defensor.CharaInfo.affinity == Datos.Tipo.Saber) { efectividad = 0.5; }
                 break;
                 case Datos.Tipo.Archer: 
-                    if(defensor == Datos.Tipo.Saber) { efectividad = 2; }
-                    if(defensor == Datos.Tipo.Lancer) { efectividad = 0.5; }
+                    if(defensor.CharaInfo.affinity == Datos.Tipo.Saber) { efectividad = 2; }
+                    if(defensor.CharaInfo.affinity == Datos.Tipo.Lancer) { efectividad = 0.5; }
                 break;
                 case Datos.Tipo.Rider: 
-                    if(defensor == Datos.Tipo.Caster) { efectividad = 2; }
-                    if(defensor == Datos.Tipo.Assassin) { efectividad = 0.5; }
+                    if(defensor.CharaInfo.affinity == Datos.Tipo.Caster) { efectividad = 2; }
+                    if(defensor.CharaInfo.affinity == Datos.Tipo.Assassin) { efectividad = 0.5; }
                 break;
-                case Datos.Tipo.Caster: 
-                    if(defensor == Datos.Tipo.Assassin) { efectividad = 2; }
-                    if(defensor == Datos.Tipo.Rider) { efectividad = 0.5; }
+                case Datos.Tipo.Caster:
+                    if(defensor.CharaInfo.affinity == Datos.Tipo.Assassin) { efectividad = 2; }
+                    if(defensor.CharaInfo.affinity == Datos.Tipo.Rider) { efectividad = 0.5; }
                 break;
                 case Datos.Tipo.Assassin: 
-                    if(defensor == Datos.Tipo.Rider) { efectividad = 2; }
-                    if(defensor == Datos.Tipo.Caster) { efectividad = 0.5; }
+                    if(defensor.CharaInfo.affinity == Datos.Tipo.Rider) { efectividad = 2; }
+                    if(defensor.CharaInfo.affinity == Datos.Tipo.Caster) { efectividad = 0.5; }
                 break;
                 case Datos.Tipo.Berserker: 
                     efectividad = 1.5;
                 break;
             }
-            if(defensor == Datos.Tipo.Berserker && atacante != Datos.Tipo.Berserker)
+            if(defensor.CharaInfo.affinity == Datos.Tipo.Berserker && atacante.CharaInfo.affinity != Datos.Tipo.Berserker)
             { 
                 efectividad = 2; 
             }
+            if(defensor.CharaInfo.affinity == Datos.Tipo.Caster && defensor.CharaInfo.intAfinidad > 0)
+            {
+                efectividad = 1;
+                defensor.CharaInfo.intAfinidad -= 1;
+            }
             return efectividad;
+        }
+
+        public void Ataque(FabricaDePersonajes atacante, FabricaDePersonajes defensor, int aux)
+        {
+            Random rnd = new Random();
+            int evadir = rnd.Next(1,101), intNum=0;
+            bool anda = true;
+            string stringNum;
+            Console.WriteLine($"{atacante.CharaInfo.Name}, {atacante.CharaInfo.Alias} ataca");
+            if(aux != 0)
+            {
+                while(!anda || intNum > 2 || intNum < 1)
+                {
+                    Console.WriteLine("Que desea hacer?\n1. Usar ataque basico\n2. Usar habilidad");
+                    stringNum = Console.ReadLine();
+                    anda = int.TryParse(stringNum, out intNum);
+                    if(!anda || intNum > 2 || intNum < 1)
+                    {
+                        Console.WriteLine("Valor inválido");
+                    }
+                }
+                if(intNum == 1)
+                {
+                    if(Fallar(defensor))
+                    {
+                        Console.WriteLine("El ataque falló");
+                    }
+                    else
+                    {
+                        basicAttack(atacante, defensor);
+                    }
+                }
+                else
+                {
+                    if(atacante.CharaInfo.affinity == Datos.Tipo.Caster)
+                    {
+                        if(atacante.CharaStats.HP < 50)
+                        {
+                            skill(atacante, defensor);
+                        }
+                        else
+                        {
+                            Console.WriteLine("La habilidad falló");
+                        }
+                    }
+                    else
+                    {
+                        skill(atacante, defensor);
+                    }
+                }
+            }
+            else
+            {
+                if(atacante.CharaStats.HP < 50 && !atacante.CharaStats.skill)
+                {
+                    if(atacante.CharaInfo.affinity == Datos.Tipo.Caster)
+                    {
+                        if(atacante.CharaStats.HP < 50)
+                        {
+                            skill(atacante, defensor);
+                        }
+                        else
+                        {
+                            Console.WriteLine("La habilidad falló");
+                        }
+                    }
+                    else
+                    {
+                        skill(atacante, defensor);
+                    }
+                    atacante.CharaStats.skill = true;
+                }
+                else
+                {
+                    if(Fallar(defensor))
+                    {
+                        Console.WriteLine("El ataque falló");
+                    }
+                    else
+                    {
+                        basicAttack(atacante, defensor);
+                    }
+                }
+            }
+        }
+        public void basicAttack(FabricaDePersonajes atacante, FabricaDePersonajes defensor)
+        {
+            Random rnd = new Random();
+            double RNG, ataque, efectividad, damage;
+            RNG = rnd.Next(70, 101);
+            ataque = atacante.CharaStats.attack * atacante.CharaStats.level * RNG / defensor.CharaStats.armor;
+            efectividad = afinidad(atacante, defensor);
+            damage = Math.Round((ataque * efectividad) / Balance);
+            defensor.CharaStats.HP -= damage;
+            Console.WriteLine($"{defensor.CharaInfo.Name}, {defensor.CharaInfo.Alias} recibe {damage} de daño");
+            if(defensor.CharaStats.HP < 0)
+            {
+                defensor.CharaStats.HP = 0;
+            }
+            Console.WriteLine("Vida restante: " + defensor.CharaStats.HP + "\n");
+        }
+
+        public void skill(FabricaDePersonajes atacante, FabricaDePersonajes defensor)
+        {
+            Random rnd = new Random();
+            double RNG, ataque, efectividad, damage;
+            RNG = rnd.Next(70, 101);
+            efectividad = afinidad(atacante, defensor);
+            switch(atacante.CharaInfo.affinity)
+            {
+                case Datos.Tipo.Lancer:
+                case Datos.Tipo.Archer:
+                case Datos.Tipo.Saber: ataque = atacante.CharaStats.attack * atacante.CharaStats.level * RNG * 1.5 / defensor.CharaStats.armor;
+                    damage = Math.Round((ataque * efectividad) / Balance);
+                    Console.WriteLine($"{atacante.CharaInfo.Name}, {atacante.CharaInfo.Alias} usa su habilidad");
+                    defensor.CharaStats.HP -= damage;
+                    Console.WriteLine($"{defensor.CharaInfo.Name}, {defensor.CharaInfo.Alias} recibe {damage} de daño");
+                    if(defensor.CharaStats.HP < 0)
+                    {
+                        defensor.CharaStats.HP = 0;
+                    }
+                    Console.WriteLine("Vida restante: " + defensor.CharaStats.HP + "\n");
+                break;
+                case Datos.Tipo.Rider: ataque = atacante.CharaStats.attack * atacante.CharaStats.level * RNG / defensor.CharaStats.armor;
+                    damage = Math.Round((ataque * efectividad) / Balance);
+                    Console.WriteLine($"{atacante.CharaInfo.Name}, {atacante.CharaInfo.Alias} usa su habilidad");
+                    defensor.CharaStats.HP -= damage;
+                    Console.WriteLine($"{defensor.CharaInfo.Name}, {defensor.CharaInfo.Alias} recibe {damage} de daño");
+                    if(defensor.CharaStats.HP < 0)
+                    {
+                        defensor.CharaStats.HP = 0;
+                    }
+                    Console.WriteLine("Vida restante: " + defensor.CharaStats.HP + "\n");
+                    defensor.CharaStats.armor *= 0.85;
+                    Console.WriteLine($"La defensa de {defensor.CharaInfo.Name}, {defensor.CharaInfo.Alias} se vió reducida permanentemente");
+                break;
+                case Datos.Tipo.Caster: atacante.CharaInfo.intAfinidad = 3;
+                    Console.WriteLine($"{atacante.CharaInfo.Name}, {atacante.CharaInfo.Alias} usa su habilidad");
+                    Console.WriteLine("Afinidad defensiva de atacante alterada por los proximos 3 turnos(recibe daño neutro de todos los tipos)");
+                break;
+                case Datos.Tipo.Assassin: ataque = atacante.CharaStats.attack * atacante.CharaStats.level * RNG / defensor.CharaStats.armor;
+                    damage = Math.Round((ataque * efectividad) / Balance);
+                    Console.WriteLine($"{atacante.CharaInfo.Name}, {atacante.CharaInfo.Alias} usa su habilidad");
+                    defensor.CharaStats.HP -= damage;
+                    Console.WriteLine($"{defensor.CharaInfo.Name}, {defensor.CharaInfo.Alias} recibe {damage} de daño");
+                    if(defensor.CharaStats.HP < 0)
+                    {
+                        defensor.CharaStats.HP = 0;
+                    }
+                    Console.WriteLine("Vida restante: " + defensor.CharaStats.HP + "\n");
+                    if(atacante.CharaStats.agility == 40)
+                    {
+                        Console.WriteLine("No puede subir mas la agilidad");
+                    }
+                    else
+                    {
+                        atacante.CharaStats.agility += 5;
+                        if(atacante.CharaStats.agility > 40)
+                        {
+                            atacante.CharaStats.agility = 40;
+                        }
+                        Console.WriteLine("Subió la agilidad del atacante");
+                    }
+                break;
+                case Datos.Tipo.Berserker: ataque = (atacante.CharaStats.attack * atacante.CharaStats.level * RNG * 1.8) / defensor.CharaStats.armor;
+                    damage = Math.Round((ataque * efectividad) / Balance);
+                    Console.WriteLine($"{atacante.CharaInfo.Name}, {atacante.CharaInfo.Alias} usa su habilidad");
+                    defensor.CharaStats.HP -= damage;
+                    Console.WriteLine($"{defensor.CharaInfo.Name}, {defensor.CharaInfo.Alias} recibe {damage} de daño");
+                    if(defensor.CharaStats.HP < 0)
+                    {
+                        defensor.CharaStats.HP = 0;
+                    }
+                    Console.WriteLine("Vida restante: " + defensor.CharaStats.HP + "\n");
+                    atacante.CharaStats.HP -= Math.Round(damage * 0.25);
+                    if(atacante.CharaStats.HP <= 0)
+                    {
+                        atacante.CharaStats.HP = 1;
+                    }
+                    Console.WriteLine($"El atacante recibió {Math.Round(damage * 0.25)} daño de retroceso");
+                    Console.WriteLine("Vida restante: " + atacante.CharaStats.HP + "\n");
+                break;
+            }
+        }
+
+        public bool Fallar(FabricaDePersonajes defensor)
+        {
+            Random rnd = new Random();
+            bool fallo = false;
+            int num = rnd.Next(1,101);
+            if(defensor.CharaStats.agility > num)
+            {
+                fallo = true;
+            }
+            return fallo;
         }
 
         public void recompensa(FabricaDePersonajes personaje)
@@ -190,7 +394,7 @@ namespace Personajes
             {
                 case 0:
                     Console.WriteLine("RECOMPENSA: +25 de Salud");
-                    personaje.CharaStats.HP += 25;
+                    personaje.CharaStats.HP += 40;
                 break;
                 case 1:
                     Console.WriteLine("RECOMPENSA: +10 defensa");
