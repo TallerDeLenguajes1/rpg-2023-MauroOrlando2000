@@ -247,3 +247,7 @@ Console.WriteLine("ENHORABUENA");
 Console.WriteLine("Es usted el merecedor del trono de hierro");
 Console.WriteLine("ESTADISTICAS FINALES");
 GranGanador.mostrarPersonaje();
+List<FabricaDePersonajes> final = new List<FabricaDePersonajes>();
+final.Add(GranGanador);
+string archivofinal = "Ganador.json";
+json.GuardarPersonajes(final, archivofinal);

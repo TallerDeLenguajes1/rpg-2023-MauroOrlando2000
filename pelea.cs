@@ -2,7 +2,7 @@ namespace Personajes
 {
     public class Pelea
     {
-        private double Balanceo = 40;
+        private double Balanceo = 30;
         public double Balance { get => Balanceo; }
         public FabricaDePersonajes Accion(FabricaDePersonajes uno, FabricaDePersonajes dos)
         {

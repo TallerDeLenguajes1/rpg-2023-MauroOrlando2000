@@ -48,7 +48,7 @@ namespace Personajes
             CharaInfo.Birth = start.AddDays(rnd.Next(range));
             CharaInfo.Age = calcularEdad(CharaInfo.Birth);
 
-            CharaStats.level = rnd.Next(1,11);
+            CharaStats.level = rnd.Next(5,11);
             switch(CharaInfo.affinity)
             {
                 case Datos.Tipo.Saber: CharaStats.speed = rnd.Next(8,12);
