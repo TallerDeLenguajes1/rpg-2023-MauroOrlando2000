@@ -188,10 +188,10 @@ namespace Personajes
             { 
                 efectividad = 2; 
             }
-            if(defensor.CharaInfo.affinity == Datos.Tipo.Caster && defensor.CharaInfo.intAfinidad > 0)
+            if(defensor.CharaInfo.affinity == Datos.Tipo.Caster && defensor.CharaStats.Aux > 0)
             {
                 efectividad = 1;
-                defensor.CharaInfo.intAfinidad -= 1;
+                defensor.CharaStats.Aux -= 1;
             }
             return efectividad;
         }
@@ -333,7 +333,7 @@ namespace Personajes
                 break;
 
                 case Datos.Tipo.Caster: Console.WriteLine($"{atacante.CharaInfo.Name}, {atacante.CharaInfo.Alias} usa su habilidad");
-                    atacante.CharaInfo.intAfinidad = 3;
+                    atacante.CharaStats.Aux = 3;
                     Console.WriteLine("Afinidad defensiva de atacante alterada por los proximos 3 turnos(recibe daño neutro de todos los tipos)");
                     atacante.CharaStats.HP += 15;
                     Console.WriteLine("Vida curada");
