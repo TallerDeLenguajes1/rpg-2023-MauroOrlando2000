@@ -8,6 +8,7 @@ namespace Personajes
         {
             int i=0, intNum=0;
             double armor1=uno.CharaStats.armor, armor2=dos.CharaStats.armor;
+            double attack1=uno.CharaStats.attack, attack2=dos.CharaStats.attack;
             bool anda = false;
             string stringNum;
             uno.CharaStats.skill = dos.CharaStats.skill = false;
@@ -76,6 +77,7 @@ namespace Personajes
                             uno.CharaStats.agility = uno.CharaStats.Aux;
                         }
                         uno.CharaStats.armor = armor1;
+                        uno.CharaStats.attack = attack1;
                     }
                     else
                     {
@@ -95,6 +97,7 @@ namespace Personajes
                                 dos.CharaStats.agility = dos.CharaStats.Aux;
                             }
                             dos.CharaStats.armor = armor2;
+                            dos.CharaStats.attack = attack2;
                         }
                     }
                     Console.ReadKey();
@@ -118,6 +121,7 @@ namespace Personajes
                             dos.CharaStats.agility = dos.CharaStats.Aux;
                         }
                         dos.CharaStats.armor = armor2;
+                        dos.CharaStats.attack = attack2;
                     }
                     else
                     {
@@ -137,6 +141,7 @@ namespace Personajes
                                 uno.CharaStats.agility = uno.CharaStats.Aux;
                             }
                             uno.CharaStats.armor = armor1;
+                            uno.CharaStats.attack = attack1;
                         }
                     }
                     Console.ReadKey();
@@ -289,6 +294,7 @@ namespace Personajes
             damage = Math.Round((ataque * efectividad) / Balance);
             defensor.CharaStats.HP -= damage;
             Console.WriteLine($"{defensor.CharaInfo.Name}, {defensor.CharaInfo.Alias} recibe {damage} de daño");
+            Mensaje(efectividad);
             if(defensor.CharaStats.HP < 0)
             {
                 defensor.CharaStats.HP = 0;
@@ -306,16 +312,21 @@ namespace Personajes
             {
                 case Datos.Tipo.Lancer:
                 case Datos.Tipo.Archer:
-                case Datos.Tipo.Saber: ataque = atacante.CharaStats.attack * atacante.CharaStats.level * RNG * 1.5 / defensor.CharaStats.armor;
+                case Datos.Tipo.Saber: ataque = atacante.CharaStats.attack * atacante.CharaStats.level * RNG * 1.4 / defensor.CharaStats.armor;
                     damage = Math.Round((ataque * efectividad) / Balance);
                     Console.WriteLine($"{atacante.CharaInfo.Name}, {atacante.CharaInfo.Alias} usa su habilidad");
                     defensor.CharaStats.HP -= damage;
                     Console.WriteLine($"{defensor.CharaInfo.Name}, {defensor.CharaInfo.Alias} recibe {damage} de daño");
+                    Mensaje(efectividad);
                     if(defensor.CharaStats.HP < 0)
                     {
                         defensor.CharaStats.HP = 0;
                     }
                     Console.WriteLine("Vida restante: " + defensor.CharaStats.HP + "\n");
+                    atacante.CharaStats.attack *= 1.2;
+                    Console.WriteLine("Subió el ataque del atacante");
+                    atacante.CharaStats.armor *= 0.9;
+                    Console.WriteLine("Bajó la defensa del atacante");
                 break;
 
                 case Datos.Tipo.Rider: ataque = atacante.CharaStats.attack * atacante.CharaStats.level * RNG / defensor.CharaStats.armor;
@@ -323,6 +334,7 @@ namespace Personajes
                     Console.WriteLine($"{atacante.CharaInfo.Name}, {atacante.CharaInfo.Alias} usa su habilidad");
                     defensor.CharaStats.HP -= damage;
                     Console.WriteLine($"{defensor.CharaInfo.Name}, {defensor.CharaInfo.Alias} recibe {damage} de daño");
+                    Mensaje(efectividad);
                     if(defensor.CharaStats.HP < 0)
                     {
                         defensor.CharaStats.HP = 0;
@@ -337,9 +349,9 @@ namespace Personajes
                     Console.WriteLine("Afinidad defensiva de atacante alterada por los proximos 3 turnos(recibe daño neutro de todos los tipos)");
                     atacante.CharaStats.HP += 15;
                     Console.WriteLine("Vida curada");
-                    if(atacante.CharaStats.HP > 50)
+                    if(atacante.CharaStats.HP > 60)
                     {
-                        atacante.CharaStats.HP = 50;
+                        atacante.CharaStats.HP = 60;
                         Console.WriteLine("Alcanzo limite de curacion");
                     }
                     atacante.CharaStats.armor += 4;
@@ -356,6 +368,7 @@ namespace Personajes
                     Console.WriteLine($"{atacante.CharaInfo.Name}, {atacante.CharaInfo.Alias} usa su habilidad");
                     defensor.CharaStats.HP -= damage;
                     Console.WriteLine($"{defensor.CharaInfo.Name}, {defensor.CharaInfo.Alias} recibe {damage} de daño");
+                    Mensaje(efectividad);
                     if(defensor.CharaStats.HP < 0)
                     {
                         defensor.CharaStats.HP = 0;
@@ -381,6 +394,7 @@ namespace Personajes
                     Console.WriteLine($"{atacante.CharaInfo.Name}, {atacante.CharaInfo.Alias} usa su habilidad");
                     defensor.CharaStats.HP -= damage;
                     Console.WriteLine($"{defensor.CharaInfo.Name}, {defensor.CharaInfo.Alias} recibe {damage} de daño");
+                    Mensaje(efectividad);
                     if(defensor.CharaStats.HP < 0)
                     {
                         defensor.CharaStats.HP = 0;
@@ -407,6 +421,22 @@ namespace Personajes
                 fallo = true;
             }
             return fallo;
+        }
+
+        public void Mensaje(double efectividad)
+        {
+            if(efectividad == 2)
+            {
+                Console.WriteLine("Daño superefectivo");
+            }
+            else if(efectividad == 1.5)
+            {
+                Console.WriteLine("Daño efectivo");
+            }
+            else if(efectividad == 0.5)
+            {
+                Console.WriteLine("Daño poco efectivo");
+            }
         }
 
         public void recompensa(FabricaDePersonajes personaje)

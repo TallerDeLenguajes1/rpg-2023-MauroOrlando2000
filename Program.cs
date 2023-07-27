@@ -242,6 +242,8 @@ FabricaDePersonajes GranGanador = Final.Accion(PersonajesPeleando[0], Personajes
 Console.WriteLine($"GANADOR: {GranGanador.CharaInfo.Name}, {GranGanador.CharaInfo.Alias}");
 PersonajesPeleando.Clear();
 
-Console.WriteLine($"ENHORABUENA {GranGanador.CharaInfo.Name}, {GranGanador.CharaInfo.Alias}");
+Console.WriteLine($"GANADOR DEL TORNEO: {GranGanador.CharaInfo.Name}, {GranGanador.CharaInfo.Alias}");
+Console.WriteLine("ENHORABUENA");
+Console.WriteLine("Es usted el merecedor del trono de hierro");
 Console.WriteLine("ESTADISTICAS FINALES");
 GranGanador.mostrarPersonaje();
