@@ -7,8 +7,10 @@ namespace Personajes
         public FabricaDePersonajes Accion(FabricaDePersonajes uno, FabricaDePersonajes dos)
         {
             int i=0, intNum=0;
+            double armor1=uno.CharaStats.armor, armor2=dos.CharaStats.armor;
             bool anda = false;
             string stringNum;
+            uno.CharaStats.skill = dos.CharaStats.skill = false;
             if(uno.CharaInfo.affinity == Datos.Tipo.Caster)
             {
                 uno.CharaStats.Aux = 0;
@@ -17,7 +19,6 @@ namespace Personajes
             {
                 dos.CharaStats.Aux = 0;
             }
-            uno.CharaStats.skill = dos.CharaStats.skill = false;
             if(uno.CharaInfo.affinity == Datos.Tipo.Assassin)
             {
                 uno.CharaStats.Aux = uno.CharaStats.agility;
@@ -74,6 +75,7 @@ namespace Personajes
                         {
                             uno.CharaStats.agility = uno.CharaStats.Aux;
                         }
+                        uno.CharaStats.armor = armor1;
                     }
                     else
                     {
@@ -92,6 +94,7 @@ namespace Personajes
                             {
                                 dos.CharaStats.agility = dos.CharaStats.Aux;
                             }
+                            dos.CharaStats.armor = armor2;
                         }
                     }
                     Console.ReadKey();
@@ -114,6 +117,7 @@ namespace Personajes
                         {
                             dos.CharaStats.agility = dos.CharaStats.Aux;
                         }
+                        dos.CharaStats.armor = armor2;
                     }
                     else
                     {
@@ -132,6 +136,7 @@ namespace Personajes
                             {
                                 uno.CharaStats.agility = uno.CharaStats.Aux;
                             }
+                            uno.CharaStats.armor = armor1;
                         }
                     }
                     Console.ReadKey();
@@ -214,7 +219,7 @@ namespace Personajes
                 {
                     if(Fallar(defensor))
                     {
-                        Console.WriteLine("El ataque falló");
+                        Console.WriteLine("El ataque falló\n");
                     }
                     else
                     {
@@ -312,6 +317,7 @@ namespace Personajes
                     }
                     Console.WriteLine("Vida restante: " + defensor.CharaStats.HP + "\n");
                 break;
+
                 case Datos.Tipo.Rider: ataque = atacante.CharaStats.attack * atacante.CharaStats.level * RNG / defensor.CharaStats.armor;
                     damage = Math.Round((ataque * efectividad) / Balance);
                     Console.WriteLine($"{atacante.CharaInfo.Name}, {atacante.CharaInfo.Alias} usa su habilidad");
@@ -323,12 +329,28 @@ namespace Personajes
                     }
                     Console.WriteLine("Vida restante: " + defensor.CharaStats.HP + "\n");
                     defensor.CharaStats.armor *= 0.85;
-                    Console.WriteLine($"La defensa de {defensor.CharaInfo.Name}, {defensor.CharaInfo.Alias} se vió reducida permanentemente");
+                    Console.WriteLine($"La armadura del defensor se vió reducida");
                 break;
-                case Datos.Tipo.Caster: atacante.CharaInfo.intAfinidad = 3;
-                    Console.WriteLine($"{atacante.CharaInfo.Name}, {atacante.CharaInfo.Alias} usa su habilidad");
+
+                case Datos.Tipo.Caster: Console.WriteLine($"{atacante.CharaInfo.Name}, {atacante.CharaInfo.Alias} usa su habilidad");
+                    atacante.CharaInfo.intAfinidad = 3;
                     Console.WriteLine("Afinidad defensiva de atacante alterada por los proximos 3 turnos(recibe daño neutro de todos los tipos)");
+                    atacante.CharaStats.HP += 15;
+                    Console.WriteLine("Vida curada");
+                    if(atacante.CharaStats.HP > 50)
+                    {
+                        atacante.CharaStats.HP = 50;
+                        Console.WriteLine("Alcanzo limite de curacion");
+                    }
+                    atacante.CharaStats.armor += 4;
+                    Console.WriteLine("Armadura aumentada\n");
+                    if(atacante.CharaStats.armor > 25)
+                    {
+                        atacante.CharaStats.armor = 25;
+                        Console.WriteLine("Limite de armadura alcanzado\n");
+                    }
                 break;
+
                 case Datos.Tipo.Assassin: ataque = atacante.CharaStats.attack * atacante.CharaStats.level * RNG / defensor.CharaStats.armor;
                     damage = Math.Round((ataque * efectividad) / Balance);
                     Console.WriteLine($"{atacante.CharaInfo.Name}, {atacante.CharaInfo.Alias} usa su habilidad");
@@ -341,7 +363,7 @@ namespace Personajes
                     Console.WriteLine("Vida restante: " + defensor.CharaStats.HP + "\n");
                     if(atacante.CharaStats.agility == 40)
                     {
-                        Console.WriteLine("No puede subir mas la agilidad");
+                        Console.WriteLine("No puede subir mas la agilidad\n");
                     }
                     else
                     {
@@ -350,9 +372,10 @@ namespace Personajes
                         {
                             atacante.CharaStats.agility = 40;
                         }
-                        Console.WriteLine("Subió la agilidad del atacante");
+                        Console.WriteLine("Subió la agilidad del atacante\n");
                     }
                 break;
+
                 case Datos.Tipo.Berserker: ataque = (atacante.CharaStats.attack * atacante.CharaStats.level * RNG * 1.8) / defensor.CharaStats.armor;
                     damage = Math.Round((ataque * efectividad) / Balance);
                     Console.WriteLine($"{atacante.CharaInfo.Name}, {atacante.CharaInfo.Alias} usa su habilidad");
